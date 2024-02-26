@@ -1,6 +1,6 @@
 {
   "name": "vuetify3-audio-player",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Audio player for Vue 3 based on Vuetify. ",
   "main": "index.js",
   "scripts": {
