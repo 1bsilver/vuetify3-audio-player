@@ -1,7 +1,7 @@
 {
-  "name": "vuetify3-audio",
+  "name": "vuetify3-audio-player",
   "version": "1.0.0",
-  "description": "Vue.js audio files player with Vuetify UI framework",
+  "description": "Audio player for Vue 3 based on Vuetify. ",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wilsonwu/vuetify-audio.git"
+    "url": "git+https://github.com/1bsilver/vuetify3-audio-player"
   },
   "keywords": [
     "audio",
@@ -25,12 +25,12 @@
     "vuetify3",
     "vuetifyjs"
   ],
-  "author": "Ibrahim",
+  "author": "Ibrahim AM",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/wilsonwu/vuetify-audio/issues"
+    "url": "https://github.com/1bsilver/vuetify3-audio-player/issues"
   },
-  "homepage": "https://github.com/wilsonwu/vuetify-audio/issues#readme",
+  "homepage": "https://github.com/1bsilver/vuetify3-audio-player",
   "devDependencies": {
     "watch-http-server": "^0.7.6",
     "babel-eslint": "^10.0.3",

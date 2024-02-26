@@ -4,7 +4,8 @@
 <a href="https://www.npmjs.com/package/vuetify-audio"><img src="https://img.shields.io/npm/v/vuetify-audio.svg" alt="Version"></a>
 <a href="https://www.npmjs.com/package/vuetify-audio"><img src="https://img.shields.io/npm/l/vuetify-audio.svg" alt="License"></a>
 
-Vue 3 sound audio player based on Vuetify UI framework. Covers audio-tag API and adds more.
+Vue 3 audio player based on Vuetify UI framework. Covers audio-tag API and adds more.
+This project is forked from https://github.com/wilsonwu/vuetify-audio and migrated to Vue 3.
 
 ## Features
 
@@ -18,10 +19,6 @@ Vue 3 sound audio player based on Vuetify UI framework. Covers audio-tag API and
 - Support turn on and off audio download button.
 - Support disable the Vuetify Card style, and you can use this component in your own Vuetify Card of your page.
 - You can set custom icons supported by vuetify v-icon component.
-
-### Demo
-
-https://wilsonwu.github.io/dist/index.html#/vuetifyaudio
 
 ### Installation
 
