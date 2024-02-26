@@ -1,0 +1,46 @@
+{
+  "name": "vuetify3-audio",
+  "version": "1.0.0",
+  "description": "Vue.js audio files player with Vuetify UI framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "watch-http-server -s -p 8888",
+    "lint": "eslint --ext .js,.vue src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wilsonwu/vuetify-audio.git"
+  },
+  "keywords": [
+    "audio",
+    "sound",
+    "mp3",
+    "wav",
+    "player",
+    "vue",
+    "vue3",
+    "vue.js",
+    "vuetify",
+    "vuetify3",
+    "vuetifyjs"
+  ],
+  "author": "Ibrahim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wilsonwu/vuetify-audio/issues"
+  },
+  "homepage": "https://github.com/wilsonwu/vuetify-audio/issues#readme",
+  "devDependencies": {
+    "watch-http-server": "^0.7.6",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-html": "^6.0.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  },
+  "dependencies": {}
+}
