@@ -114,7 +114,7 @@ const formatTime = (second) =>
   new Date(second * 1000).toISOString().substr(11, 8);
 
 export default {
-  name: "Vuetify3Player",
+  name: "VuetifyAudio",
   props: {
     flat: {
       type: Boolean,

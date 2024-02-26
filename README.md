@@ -94,10 +94,6 @@ And below code in the `<template>`:
 - **volumeHighIcon** (String) (Optional, default is mdi-volume-high): Set the icon for volume
 - **volumeMuteIcon** (String) (Optional, default is mdi-volume-mute): Set the icon for mute
 
-### Known Issues
-
-1. Audio play pregress bar can't support drag, only support click.
-
 ### License
 
 MIT
