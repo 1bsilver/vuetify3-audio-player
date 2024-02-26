@@ -1,11 +1,11 @@
 # vuetify3-audio-player
 
-<a href="https://www.npmjs.com/package/vuetify-audio"><img src="https://img.shields.io/npm/dt/vuetify-audio.svg" alt="Downloads"></a>
-<a href="https://www.npmjs.com/package/vuetify-audio"><img src="https://img.shields.io/npm/v/vuetify-audio.svg" alt="Version"></a>
-<a href="https://www.npmjs.com/package/vuetify-audio"><img src="https://img.shields.io/npm/l/vuetify-audio.svg" alt="License"></a>
+<a href="https://www.npmjs.com/package/vuetify3-audio-player"><img src="https://img.shields.io/npm/dt/vuetify-audio.svg" alt="Downloads"></a>
+<a href="https://www.npmjs.com/package/vuetify3-audio-player"><img src="https://img.shields.io/npm/v/vuetify3-audio-player.svg" alt="Version"></a>
+<a href="https://www.npmjs.com/package/vuetify3-audio-player"><img src="https://img.shields.io/npm/l/vuetify3-audio-player.svg" alt="License"></a>
 
-Vue 3 audio player based on Vuetify UI framework. Covers audio-tag API and adds more.
-This project is forked from https://github.com/wilsonwu/vuetify-audio and migrated to Vue 3.
+This is an audio player for Vue 3 based on Vuetify 3.
+This project is forked from [here](https://github.com/wilsonwu/vuetify-audio) and migrated to Vue 3.
 
 ## Features
 
@@ -22,7 +22,7 @@ This project is forked from https://github.com/wilsonwu/vuetify-audio and migrat
 
 ### Installation
 
-Use npm: `npm install vuetify-audio --save`
+Use npm: `npm install vuetify3-audio-player --save`
 
 ### Prepare
 
@@ -58,7 +58,21 @@ Add below code into your `<script>`:
 ```js
 export default {
   components: {
-    VuetifyAudio: () => import("vuetify-audio"),
+    VuetifyAudio: () => import("vuetify3-audio-player"),
+  },
+  data: () => ({
+    file: "http://www.hochmuth.com/mp3/Boccherini_Concerto_478-1.mp3",
+  }),
+};
+```
+
+OR
+
+```js
+import VuetifyAudio from "vuetify3-audio-player";
+export default {
+  components: {
+    VuetifyAudio,
   },
   data: () => ({
     file: "http://www.hochmuth.com/mp3/Boccherini_Concerto_478-1.mp3",
