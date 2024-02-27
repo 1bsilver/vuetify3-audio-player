@@ -6,8 +6,8 @@
     >
       <v-card-text>
         <v-row>
-          <v-col class="px-0 mx-0">{{ currentTime }}</v-col>
-          <v-col cols="8">
+          <v-col class="px-0 mx-0 text-caption">{{ currentTime }}</v-col>
+          <v-col :cols="minimal ? 6 : 8">
             <v-progress-linear
               :color="color"
               hide-details
@@ -19,7 +19,7 @@
               :disabled="!loaded"
             ></v-progress-linear>
           </v-col>
-          <v-col class="px-0 mx-0">{{ duration }}</v-col>
+          <v-col class="px-0 mx-0 text-caption">{{ duration }}</v-col>
         </v-row>
       </v-card-text>
       <audio
@@ -30,9 +30,11 @@
         :src="file"
       ></audio>
       <v-card-actions>
+        <v-spacer v-if="minimal"></v-spacer>
         <v-btn
           variant="outlined"
           icon
+          :size="minimal ? 'small' : 'default'"
           class="ma-2"
           :color="color"
           @click="playing ? pause() : play()"
@@ -43,6 +45,7 @@
         </v-btn>
         <v-btn
           variant="outlined"
+          :size="minimal ? 'small' : 'default'"
           icon
           class="ma-2"
           :color="color"
@@ -53,6 +56,7 @@
         </v-btn>
         <v-btn
           variant="outlined"
+          :size="minimal ? 'small' : 'default'"
           icon
           class="ma-2"
           :color="color"
@@ -64,6 +68,7 @@
         </v-btn>
         <v-btn
           variant="outlined"
+          :size="minimal ? 'small' : 'default'"
           icon
           class="ma-2"
           :color="color"
@@ -74,6 +79,7 @@
         </v-btn>
         <v-btn
           variant="outlined"
+          :size="minimal ? 'small' : 'default'"
           icon
           class="ma-2"
           :color="color"
@@ -82,9 +88,22 @@
         >
           <v-icon>{{ downloadIcon }}</v-icon>
         </v-btn>
+        <v-btn
+          variant="outlined"
+          :size="minimal ? 'small' : 'default'"
+          icon
+          class="ma-2"
+          :color="color"
+          @click="mute()"
+          :disabled="!loaded"
+          v-if="miinimal"
+        >
+          <v-icon>{{ isMuted ? volumeMuteIcon : volumeHighIcon }}</v-icon>
+        </v-btn>
 
         <v-spacer></v-spacer>
         <v-slider
+          v-if="!minimal"
           v-model="playerVolume"
           rounded
           thumb-size="15"
@@ -135,6 +154,10 @@ export default {
     canPlay: {
       type: Function,
       default: () => {},
+    },
+    minimal: {
+      type: Boolean,
+      default: false,
     },
     color: {
       type: String,
