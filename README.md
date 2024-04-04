@@ -1,6 +1,6 @@
 # vuetify3-audio-player
 
-<a href="https://www.npmjs.com/package/vuetify3-audio-player"><img src="https://img.shields.io/npm/dt/vuetify-audio.svg" alt="Downloads"></a>
+<a href="https://www.npmjs.com/package/vuetify3-audio-player"><img src="https://img.shields.io/npm/dt/vuetify3-audio-player.svg" alt="Downloads"></a>
 <a href="https://www.npmjs.com/package/vuetify3-audio-player"><img src="https://img.shields.io/npm/v/vuetify3-audio-player.svg" alt="Version"></a>
 <a href="https://www.npmjs.com/package/vuetify3-audio-player"><img src="https://img.shields.io/npm/l/vuetify3-audio-player.svg" alt="License"></a>
 
@@ -18,6 +18,7 @@ This project is forked from [here](https://github.com/wilsonwu/vuetify-audio) an
 - Supports disabling audio download button.
 - Supports disable the Vuetify Card style, and you can use this component in your own Vuetify Card of your page.
 - You can set custom icons supported by vuetify v-icon component.
+- Supports small size with the minimal props.
 
 ### Preview
 
