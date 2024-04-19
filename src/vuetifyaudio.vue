@@ -89,6 +89,7 @@
           <v-icon>{{ downloadIcon }}</v-icon>
         </v-btn>
         <v-btn
+          v-if="minimal"
           variant="outlined"
           :size="minimal ? 'small' : 'default'"
           icon
@@ -96,7 +97,6 @@
           :color="color"
           @click="mute()"
           :disabled="!loaded"
-          v-if="miinimal"
         >
           <v-icon>{{ isMuted ? volumeMuteIcon : volumeHighIcon }}</v-icon>
         </v-btn>
