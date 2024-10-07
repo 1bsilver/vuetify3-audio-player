@@ -13,7 +13,7 @@ This project is forked from [here](https://github.com/wilsonwu/vuetify-audio) an
 - Supports most of the audio play in this component.
 - You can set the color you want for all component buttons.
 - Supports downloading the audio file.
-- Support Dark mode of Vuetify.
+- Supports Dark mode of Vuetify.
 - Supports auto play, but if user didn't interact with the document first, the audio can't be played.
 - Supports disabling audio download button.
 - Supports disable the Vuetify Card style, and you can use this component in your own Vuetify Card of your page.
