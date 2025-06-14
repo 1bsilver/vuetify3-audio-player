@@ -518,26 +518,81 @@ export default {
   font-size: 1.4rem !important;
 }
 .vuetify-audio-modern .v-progress-linear {
-  border-radius: 8px !important;
-  height: 12px !important;
-  box-shadow: 0 1px 6px 0 rgba(99, 102, 241, 0.08);
+  border-radius: 10px !important;
+  height: 16px !important;
+  box-shadow: 0 2px 12px 0 rgba(99, 102, 241, 0.13);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--v-theme-surface) 90%, var(--v-theme-primary) 10%)
+      0%,
+    color-mix(in srgb, var(--v-theme-surface) 80%, var(--v-theme-primary) 20%)
+      100%
+  ) !important;
+  position: relative;
+  overflow: visible;
+  transition: background 0.3s;
 }
-.vuetify-audio-modern .v-row {
-  flex-wrap: nowrap !important;
-  align-items: center !important;
-  margin-left: 8px !important;
-  margin-right: 0 !important;
-  min-width: 90px !important;
-  max-width: 120px !important;
+.vuetify-audio-modern .v-progress-linear .v-progress-linear__determinate {
+  background: linear-gradient(
+    90deg,
+    var(--v-theme-primary),
+    color-mix(in srgb, var(--v-theme-primary) 60%, var(--v-theme-secondary) 40%)
+  );
+  box-shadow: 0 0 8px 2px
+    color-mix(in srgb, var(--v-theme-primary) 60%, transparent 40%);
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s;
+  position: relative;
+  z-index: 1;
+  animation: vaudio-modern-bar-move 2.2s linear infinite;
 }
-.vuetify-audio-modern .v-col {
-  padding: 0 !important;
+@keyframes vaudio-modern-bar-move {
+  0% {
+    filter: brightness(1) drop-shadow(0 0 0px var(--v-theme-primary));
+  }
+  50% {
+    filter: brightness(1.08) drop-shadow(0 0 8px var(--v-theme-primary));
+  }
+  100% {
+    filter: brightness(1) drop-shadow(0 0 0px var(--v-theme-primary));
+  }
 }
-.vuetify-audio-modern .text-caption {
-  font-size: 1.01rem !important;
-  color: var(--v-theme-primary) !important;
-  font-weight: 500;
-  letter-spacing: 0.2px;
+.vuetify-audio-modern
+  .v-progress-linear
+  .v-progress-linear__determinate::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 60%,
+    color-mix(in srgb, var(--v-theme-primary) 30%, var(--v-theme-surface) 70%)
+      100%
+  );
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 2;
+  border-radius: 10px;
+}
+.vuetify-audio-modern .v-progress-linear .v-progress-linear__indeterminate {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--v-theme-primary) 0 10px,
+    var(--v-theme-secondary) 10px 20px
+  );
+  opacity: 0.7;
+  animation: vaudio-modern-indeterminate 1.2s linear infinite;
+}
+@keyframes vaudio-modern-indeterminate {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 40px;
+  }
 }
 .vuetify-audio-modern .v-card-text {
   padding-bottom: 0.5rem !important;
