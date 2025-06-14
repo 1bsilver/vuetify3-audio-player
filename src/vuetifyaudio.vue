@@ -48,8 +48,8 @@
         :src="file"
       ></audio>
       <v-card-actions
-        class="pt-1 pb-2 pb-sm-3 px-2 px-sm-4"
-        style="flex-wrap: wrap; gap: 2px"
+        class="pt-1 pb-2 pb-sm-3 px-2 px-sm-4 d-flex align-center justify-center"
+        style="flex-wrap: wrap; gap: 2px; min-height: 48px"
       >
         <v-spacer v-if="minimal"></v-spacer>
         <v-btn
@@ -60,6 +60,7 @@
           :color="color"
           @click="playing ? pause() : play()"
           :disabled="!loaded"
+          aria-label="Play/Pause"
         >
           <v-icon v-if="!playing || paused">{{ playIcon }}</v-icon>
           <v-icon v-else>{{ pauseIcon }}</v-icon>
@@ -72,6 +73,7 @@
           :color="color"
           @click="stop()"
           :disabled="!loaded"
+          aria-label="Stop"
         >
           <v-icon>{{ stopIcon }}</v-icon>
         </v-btn>
@@ -83,6 +85,7 @@
           :color="color"
           @click="switchIsOnRepeat()"
           :disabled="!loaded"
+          aria-label="Repeat"
         >
           <v-icon v-if="isOnRepeat">mdi-repeat</v-icon>
           <v-icon v-else>mdi-repeat-off</v-icon>
@@ -95,6 +98,7 @@
           :color="color"
           @click="loaded ? download() : reload()"
           v-if="!loaded"
+          aria-label="Reload"
         >
           <v-icon>{{ refreshIcon }}</v-icon>
         </v-btn>
@@ -106,6 +110,7 @@
           :color="color"
           @click="loaded ? download() : reload()"
           v-if="loaded && downloadable"
+          aria-label="Download"
         >
           <v-icon>{{ downloadIcon }}</v-icon>
         </v-btn>
@@ -118,6 +123,7 @@
           :color="color"
           @click="mute()"
           :disabled="!loaded"
+          aria-label="Mute"
         >
           <v-icon>{{ isMuted ? volumeMuteIcon : volumeHighIcon }}</v-icon>
         </v-btn>
