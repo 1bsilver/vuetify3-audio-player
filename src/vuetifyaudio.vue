@@ -1,9 +1,19 @@
 <template>
   <v-container fluid class="pa-0">
     <v-card
+      :class="[
+        variant === 'modern' ? 'vuetify-audio-modern' : '',
+        'pa-4',
+        'pa-sm-6',
+      ]"
       style="text-align: center; max-width: 420px; margin: 0 auto"
-      :flat="flat == undefined || flat == false ? false : true"
-      class="pa-4 pa-sm-6"
+      :flat="
+        variant === 'modern'
+          ? true
+          : flat == undefined || flat == false
+          ? false
+          : true
+      "
     >
       <v-card-text class="pb-2 pb-sm-4 pt-3 pt-sm-5">
         <div
@@ -234,6 +244,7 @@
     </v-card>
   </v-container>
 </template>
+
 <script>
 const formatTime = (second) =>
   new Date(second * 1000).toISOString().substr(11, 8);
@@ -300,6 +311,11 @@ export default {
     volumeMuteIcon: {
       type: String,
       default: "mdi-volume-mute",
+    },
+    variant: {
+      type: String,
+      default: "default", // options: default, modern
+      validator: (v) => ["default", "modern"].includes(v),
     },
   },
   computed: {
@@ -462,6 +478,7 @@ export default {
     this.init();
   },
   beforeUnmount() {
+    if (!this.audio) return;
     this.audio.removeEventListener("timeupdate", this._handlePlayingUI);
     this.audio.removeEventListener("loadeddata", this._handleLoaded);
     this.audio.removeEventListener("pause", this._handlePlayPause);
@@ -470,3 +487,74 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* --- Variant: modern --- */
+.vuetify-audio-modern {
+  background: var(--v-theme-surface);
+  box-shadow: 0 4px 24px 0 rgba(99, 102, 241, 0.1);
+  border-radius: 18px;
+  border: 1.5px solid var(--v-theme-primary);
+  padding: 0.5rem 1rem 1rem 1rem !important;
+  transition: box-shadow 0.3s, background 0.3s;
+}
+.vuetify-audio-modern .v-card-actions {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  min-height: 54px !important;
+  padding: 0 !important;
+}
+.vuetify-audio-modern .v-btn {
+  border-radius: 10px !important;
+  box-shadow: 0 2px 8px 0 rgba(99, 102, 241, 0.08);
+}
+.vuetify-audio-modern .v-btn:disabled {
+  opacity: 0.5;
+}
+.vuetify-audio-modern .v-btn .v-icon {
+  font-size: 1.4rem !important;
+}
+.vuetify-audio-modern .v-progress-linear {
+  border-radius: 8px !important;
+  height: 12px !important;
+  box-shadow: 0 1px 6px 0 rgba(99, 102, 241, 0.08);
+}
+.vuetify-audio-modern .v-row {
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  margin-left: 8px !important;
+  margin-right: 0 !important;
+  min-width: 90px !important;
+  max-width: 120px !important;
+}
+.vuetify-audio-modern .v-col {
+  padding: 0 !important;
+}
+.vuetify-audio-modern .text-caption {
+  font-size: 1.01rem !important;
+  color: var(--v-theme-primary) !important;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+.vuetify-audio-modern .v-card-text {
+  padding-bottom: 0.5rem !important;
+  padding-top: 1.2rem !important;
+}
+@media (max-width: 600px) {
+  .vuetify-audio-modern {
+    padding: 0.5rem 0.5rem 1rem 0.5rem !important;
+  }
+  .vuetify-audio-modern .v-card-actions {
+    gap: 6px !important;
+    min-height: 44px !important;
+  }
+  .vuetify-audio-modern .v-row {
+    min-width: 60px !important;
+    max-width: 80px !important;
+    margin-left: 4px !important;
+  }
+}
+</style>

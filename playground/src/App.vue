@@ -216,6 +216,7 @@ watch(codeExample, async () => {
               </div>
               <VuetifyAudio
                 :file="audioFile"
+                variant="modern"
                 color="primary"
                 :downloadable="true"
                 :minimal="minimal"
