@@ -222,7 +222,7 @@ export default {
       currentTime: "00:00:00",
       audio: undefined,
       totalDuration: 0,
-      playerVolume: 0.5,
+      playerVolume: 1.0,
     };
   },
 
