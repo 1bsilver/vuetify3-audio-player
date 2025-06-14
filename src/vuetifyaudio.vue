@@ -1,26 +1,44 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="pa-0">
     <v-card
-      style="text-align: center"
+      style="text-align: center; max-width: 420px; margin: 0 auto"
       :flat="flat == undefined || flat == false ? false : true"
+      class="pa-4 pa-sm-6"
     >
-      <v-card-text>
-        <v-row>
-          <v-col class="px-0 mx-0 text-caption">{{ currentTime }}</v-col>
-          <v-col :cols="minimal ? 6 : 8">
-            <v-progress-linear
-              :color="color"
-              hide-details
-              v-model="percentage"
-              :height="20"
-              clickable
-              rounded
-              @click="setPosition()"
-              :disabled="!loaded"
-            ></v-progress-linear>
-          </v-col>
-          <v-col class="px-0 mx-0 text-caption">{{ duration }}</v-col>
-        </v-row>
+      <v-card-text class="pb-2 pb-sm-4 pt-3 pt-sm-5">
+        <div
+          style="
+            display: grid;
+            grid-template-columns: min-content 1fr min-content;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            min-height: 36px;
+          "
+        >
+          <span
+            class="text-caption text-grey-darken-1"
+            style="text-align: right"
+            >{{ currentTime }}</span
+          >
+          <v-progress-linear
+            :color="color"
+            hide-details
+            v-model="percentage"
+            :height="minimal ? 8 : 12"
+            rounded
+            :disabled="!loaded"
+            class="mx-0"
+            style="cursor: pointer; min-width: 0; width: 100%"
+            @mousedown="onProgressBarDown"
+            @touchstart="onProgressBarDown"
+          ></v-progress-linear>
+          <span
+            class="text-caption text-grey-darken-1"
+            style="text-align: left"
+            >{{ duration }}</span
+          >
+        </div>
       </v-card-text>
       <audio
         id="player"
@@ -29,13 +47,16 @@
         v-on:canplay="canPlay"
         :src="file"
       ></audio>
-      <v-card-actions>
+      <v-card-actions
+        class="pt-1 pb-2 pb-sm-3 px-2 px-sm-4"
+        style="flex-wrap: wrap; gap: 2px"
+      >
         <v-spacer v-if="minimal"></v-spacer>
         <v-btn
           variant="outlined"
           icon
           :size="minimal ? 'small' : 'default'"
-          class="ma-2"
+          class="ma-1"
           :color="color"
           @click="playing ? pause() : play()"
           :disabled="!loaded"
@@ -47,7 +68,7 @@
           variant="outlined"
           :size="minimal ? 'small' : 'default'"
           icon
-          class="ma-2"
+          class="ma-1"
           :color="color"
           @click="stop()"
           :disabled="!loaded"
@@ -58,7 +79,7 @@
           variant="outlined"
           :size="minimal ? 'small' : 'default'"
           icon
-          class="ma-2"
+          class="ma-1"
           :color="color"
           @click="switchIsOnRepeat()"
           :disabled="!loaded"
@@ -70,7 +91,7 @@
           variant="outlined"
           :size="minimal ? 'small' : 'default'"
           icon
-          class="ma-2"
+          class="ma-1"
           :color="color"
           @click="loaded ? download() : reload()"
           v-if="!loaded"
@@ -81,7 +102,7 @@
           variant="outlined"
           :size="minimal ? 'small' : 'default'"
           icon
-          class="ma-2"
+          class="ma-1"
           :color="color"
           @click="loaded ? download() : reload()"
           v-if="loaded && downloadable"
@@ -93,37 +114,53 @@
           variant="outlined"
           :size="minimal ? 'small' : 'default'"
           icon
-          class="ma-2"
+          class="ma-1"
           :color="color"
           @click="mute()"
           :disabled="!loaded"
         >
           <v-icon>{{ isMuted ? volumeMuteIcon : volumeHighIcon }}</v-icon>
         </v-btn>
-
         <v-spacer></v-spacer>
-        <v-slider
+        <v-row
           v-if="!minimal"
-          v-model="playerVolume"
-          rounded
-          thumb-size="15"
-          hide-details
-          :color="color"
-          max="1"
-          step="0.01"
-          min="0"
-          density="compact"
-          class=""
+          align="center"
+          no-gutters
+          style="max-width: 110px; margin: 0 auto"
+          class="mt-1"
         >
-          <template #prepend>
-            <v-icon v-if="!isMuted" @click="mute()" :color="color">
-              {{ volumeHighIcon }}
-            </v-icon>
-            <v-icon v-else @click="mute()" :color="color">
-              {{ volumeMuteIcon }}
-            </v-icon>
-          </template>
-        </v-slider>
+          <v-col cols="auto" class="pa-0">
+            <v-btn
+              icon
+              variant="text"
+              :color="isMuted ? 'grey' : color"
+              size="x-small"
+              @click="mute()"
+              :aria-label="isMuted ? 'Unmute' : 'Mute'"
+              style="min-width: 26px"
+            >
+              <v-icon size="16">{{
+                isMuted ? volumeMuteIcon : volumeHighIcon
+              }}</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col class="pa-0" style="flex: 1; min-width: 38px; max-width: 70px">
+            <v-slider
+              v-model="playerVolume"
+              :color="color"
+              min="0"
+              max="1"
+              step="0.01"
+              hide-details
+              density="compact"
+              thumb-size="10"
+              track-size="3"
+              rounded
+              style="margin: 0 1px"
+              aria-label="Volume"
+            />
+          </v-col>
+        </v-row>
       </v-card-actions>
     </v-card>
   </v-container>
@@ -227,10 +264,40 @@ export default {
   },
 
   methods: {
-    setPosition() {
-      this.audio.currentTime = parseInt(
-        (this.audio.duration / 100) * this.percentage
-      );
+    onProgressBarDown(e) {
+      if (!this.loaded || !this.audio) return;
+      const progress = e.target;
+      const getPercent = (evt) => {
+        const rect = progress.getBoundingClientRect();
+        let clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
+        let percent = (clientX - rect.left) / rect.width;
+        percent = Math.max(0, Math.min(1, percent));
+        this.audio.currentTime = percent * this.audio.duration;
+        this.percentage = percent * 100;
+      };
+      getPercent(e);
+      const move = (evt) => {
+        evt.preventDefault();
+        getPercent(evt);
+      };
+      const up = () => {
+        window.removeEventListener("mousemove", move);
+        window.removeEventListener("mouseup", up);
+        window.removeEventListener("touchmove", move);
+        window.removeEventListener("touchend", up);
+      };
+      window.addEventListener("mousemove", move);
+      window.addEventListener("mouseup", up);
+      window.addEventListener("touchmove", move);
+      window.addEventListener("touchend", up);
+    },
+    setPosition(e) {
+      if (!this.loaded || !this.audio || !e) return;
+      const rect = e.target.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const percent = Math.max(0, Math.min(1, x / rect.width));
+      this.audio.currentTime = percent * this.audio.duration;
+      this.percentage = percent * 100;
     },
     stop() {
       this.audio.pause();
@@ -256,7 +323,7 @@ export default {
     },
     mute() {
       this.isMuted = !this.isMuted;
-      this.playerVolume = this.isMuted ? 0 : 0.5;
+      this.playerVolume = this.isMuted ? 0 : 1.0;
       this.audio.muted = this.isMuted;
     },
     reload() {
