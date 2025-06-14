@@ -7,6 +7,7 @@
     >
       <v-card-text class="pb-2 pb-sm-4 pt-3 pt-sm-5">
         <div
+          v-if="!minimal"
           style="
             display: grid;
             grid-template-columns: min-content 1fr min-content;
@@ -25,7 +26,7 @@
             :color="color"
             hide-details
             v-model="percentage"
-            :height="minimal ? 8 : 12"
+            :height="12"
             rounded
             :disabled="!loaded"
             class="mx-0"
@@ -39,6 +40,47 @@
             >{{ duration }}</span
           >
         </div>
+        <div
+          v-else
+          style="
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            min-height: 44px;
+            justify-content: center;
+            padding: 8px 0 4px 0;
+          "
+        >
+          <span
+            class="text-caption text-grey-darken-1"
+            style="min-width: 56px; text-align: right; letter-spacing: 0.5px"
+            >{{ currentTime }}</span
+          >
+          <v-progress-linear
+            :color="color"
+            hide-details
+            v-model="percentage"
+            :height="8"
+            rounded
+            :disabled="!loaded"
+            class="mx-0"
+            style="
+              cursor: pointer;
+              min-width: 120px;
+              width: 160px;
+              max-width: 200px;
+              margin: 0 4px;
+            "
+            @mousedown="onProgressBarDown"
+            @touchstart="onProgressBarDown"
+          ></v-progress-linear>
+          <span
+            class="text-caption text-grey-darken-1"
+            style="min-width: 56px; text-align: left; letter-spacing: 0.5px"
+            >{{ duration }}</span
+          >
+        </div>
       </v-card-text>
       <audio
         id="player"
@@ -49,81 +91,102 @@
       ></audio>
       <v-card-actions
         class="pt-1 pb-2 pb-sm-3 px-2 px-sm-4 d-flex align-center justify-center"
-        style="flex-wrap: wrap; gap: 2px; min-height: 48px"
+        style="flex-wrap: wrap; gap: 8px; min-height: 44px"
       >
         <v-spacer v-if="minimal"></v-spacer>
         <v-btn
           variant="outlined"
           icon
           :size="minimal ? 'small' : 'default'"
-          class="ma-1"
+          class="ma-1 polished-btn"
           :color="color"
           @click="playing ? pause() : play()"
           :disabled="!loaded"
           aria-label="Play/Pause"
+          elevation="1"
         >
           <v-icon v-if="!playing || paused">{{ playIcon }}</v-icon>
           <v-icon v-else>{{ pauseIcon }}</v-icon>
         </v-btn>
         <v-btn
+          v-if="!minimal"
           variant="outlined"
           :size="minimal ? 'small' : 'default'"
           icon
-          class="ma-1"
+          class="ma-1 polished-btn"
           :color="color"
           @click="stop()"
           :disabled="!loaded"
           aria-label="Stop"
+          elevation="1"
         >
           <v-icon>{{ stopIcon }}</v-icon>
         </v-btn>
         <v-btn
+          v-if="!minimal"
           variant="outlined"
           :size="minimal ? 'small' : 'default'"
           icon
-          class="ma-1"
+          class="ma-1 polished-btn"
           :color="color"
           @click="switchIsOnRepeat()"
           :disabled="!loaded"
           aria-label="Repeat"
+          elevation="1"
         >
           <v-icon v-if="isOnRepeat">mdi-repeat</v-icon>
           <v-icon v-else>mdi-repeat-off</v-icon>
         </v-btn>
         <v-btn
+          v-if="!minimal && !loaded"
           variant="outlined"
           :size="minimal ? 'small' : 'default'"
           icon
-          class="ma-1"
+          class="ma-1 polished-btn"
           :color="color"
-          @click="loaded ? download() : reload()"
-          v-if="!loaded"
+          @click="download()"
           aria-label="Reload"
+          elevation="1"
         >
           <v-icon>{{ refreshIcon }}</v-icon>
         </v-btn>
         <v-btn
+          v-if="!minimal && loaded && downloadable"
           variant="outlined"
           :size="minimal ? 'small' : 'default'"
           icon
-          class="ma-1"
+          class="ma-1 polished-btn"
           :color="color"
-          @click="loaded ? download() : reload()"
-          v-if="loaded && downloadable"
+          @click="download()"
           aria-label="Download"
+          elevation="1"
+        >
+          <v-icon>{{ downloadIcon }}</v-icon>
+        </v-btn>
+        <v-btn
+          v-if="minimal && loaded && downloadable"
+          variant="outlined"
+          :size="'small'"
+          icon
+          class="ma-1 polished-btn"
+          :color="color"
+          @click="download()"
+          aria-label="Download"
+          elevation="1"
         >
           <v-icon>{{ downloadIcon }}</v-icon>
         </v-btn>
         <v-btn
           v-if="minimal"
           variant="outlined"
-          :size="minimal ? 'small' : 'default'"
+          :size="'small'"
           icon
-          class="ma-1"
+          class="ma-1 polished-btn"
           :color="color"
           @click="mute()"
           :disabled="!loaded"
           aria-label="Mute"
+          elevation="1"
         >
           <v-icon>{{ isMuted ? volumeMuteIcon : volumeHighIcon }}</v-icon>
         </v-btn>
