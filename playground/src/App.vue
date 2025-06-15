@@ -137,7 +137,7 @@ const autoPlay = ref(false);
 const playbackSpeed = ref(false);
 const loopable = ref(false);
 const selectedColor = ref("primary");
-const selectedVariant = ref("tonal");
+const selectedVariant = ref("default");
 
 const codeExample = computed(() => {
   // Only include props that are not at their default values
@@ -197,7 +197,7 @@ const variantOptions = ["default", "modern", "tonal"];
         dark ? 'playground-bg-dark' : 'playground-bg-light',
       ]"
     >
-      <v-container class="py-8" style="max-width: 1100px">
+      <v-container class="py-8" style="max-width: 1200px">
         <v-row align="center" justify="center">
           <v-col cols="12" class="text-center mb-6">
             <v-avatar
