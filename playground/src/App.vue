@@ -49,6 +49,66 @@ const propsList = [
     default: "false",
     desc: "Show repeat button and allow looping (user can toggle repeat)",
   },
+  {
+    name: "ended",
+    type: "Function",
+    default: "() => {}",
+    desc: "Callback when audio ends (event handler)",
+  },
+  {
+    name: "canPlay",
+    type: "Function",
+    default: "() => {}",
+    desc: "Callback when audio can play (event handler)",
+  },
+  {
+    name: "playIcon",
+    type: "String",
+    default: '"mdi-play"',
+    desc: "Icon for play button (Material Design Icon name)",
+  },
+  {
+    name: "pauseIcon",
+    type: "String",
+    default: '"mdi-pause"',
+    desc: "Icon for pause button (Material Design Icon name)",
+  },
+  {
+    name: "stopIcon",
+    type: "String",
+    default: '"mdi-stop"',
+    desc: "Icon for stop button (Material Design Icon name)",
+  },
+  {
+    name: "refreshIcon",
+    type: "String",
+    default: '"mdi-refresh"',
+    desc: "Icon for refresh/reload button (Material Design Icon name)",
+  },
+  {
+    name: "downloadIcon",
+    type: "String",
+    default: '"mdi-download"',
+    desc: "Icon for download button (Material Design Icon name)",
+  },
+  {
+    name: "volumeHighIcon",
+    type: "String",
+    default: '"mdi-volume-high"',
+    desc: "Icon for volume high (Material Design Icon name)",
+  },
+  {
+    name: "volumeMuteIcon",
+    type: "String",
+    default: '"mdi-volume-mute"',
+    desc: "Icon for volume mute (Material Design Icon name)",
+  },
+  {
+    name: "variant",
+    type: "String",
+    default: '"default"',
+    desc: "Player style variant (default, modern, tonal)",
+  },
 ];
 
 onMounted(() => {
@@ -399,7 +459,7 @@ const variantOptions = ["default", "modern", "tonal"];
                       </th>
                       <th
                         style="
-                          width: 110px;
+                          width: 180px;
                           text-align: center;
                           white-space: nowrap;
                         "
@@ -436,7 +496,7 @@ const variantOptions = ["default", "modern", "tonal"];
                         </td>
                         <td
                           style="
-                            width: 110px;
+                            width: 180px;
                             text-align: center;
                             white-space: nowrap;
                           "
