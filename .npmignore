@@ -1,0 +1,18 @@
+# Exclude playground, tests, docs, config, and dev files from npm package
+playground/
+tests/
+.vscode/
+.git/
+.gitignore
+.npmignore
+*.log
+*.md
+README_PROPS_TABLE.md
+LICENSE.md
+*.test.*
+coverage/
+dist/
+node_modules/
+
+# Exclude any other non-essential files/folders
+# Add more as needed
