@@ -8,6 +8,12 @@ A beautiful, modern, and fully customizable audio player for Vue 3 & Vuetify 3.
 
 ---
 
+## 🚀 Live Playground
+
+Try all features live in the `/playground` folder or [online demo](https://github.com/1bsilver/vuetify3-audio-player#playground). All props, color options, and variants are interactive.
+
+---
+
 ## Features
 
 - 🎵 **Vue 3 + Vuetify 3**: Seamless integration with the latest Vue ecosystem.
@@ -88,13 +94,6 @@ export default {
 | volumeHighIcon | String   | "mdi-volume-high" | Icon for volume high (Material Design Icon name)              |
 | volumeMuteIcon | String   | "mdi-volume-mute" | Icon for volume mute (Material Design Icon name)              |
 | variant        | String   | "default"         | Player style variant (default, modern, tonal)                 |
-
----
-
-## Playground & Demo
-
-- Try all features live in the `/playground` folder or [online demo](https://github.com/1bsilver/vuetify3-audio-player#playground).
-- All props, color options, and variants are interactive.
 
 ---
 
