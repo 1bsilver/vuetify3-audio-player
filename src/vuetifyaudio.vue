@@ -9,6 +9,9 @@
               'border-opacity-75',
               'border-solid',
               `border-${color}`,
+              $vuetify.theme.current.dark
+                ? 'vuetify-audio-tonal-dark'
+                : 'vuetify-audio-tonal-light',
             ]
           : '',
         'pa-4',
@@ -348,6 +351,31 @@ export default {
         this.isMuted = true;
       }
     },
+    file(newFile, oldFile) {
+      // When file changes, reload and try autoplay if enabled
+      if (this.audio) {
+        this.loaded = false;
+        this.audio.src = newFile;
+        this.audio.load();
+        if (this.autoPlay) {
+          // Try to play after a short delay to ensure audio is ready
+          setTimeout(() => {
+            this.audio.play().catch((e) => {
+              // Log autoplay block for debugging
+              console.warn("Autoplay failed:", e);
+            });
+          }, 100);
+        }
+      }
+    },
+    autoPlay(newVal) {
+      // If autoPlay is toggled on, try to play if loaded
+      if (newVal && this.loaded && this.audio) {
+        this.audio.play().catch((e) => {
+          console.warn("Autoplay failed:", e);
+        });
+      }
+    },
   },
   data() {
     return {
@@ -480,7 +508,13 @@ export default {
           this.loaded = true;
         }
 
-        if (this.autoPlay) this.audio.play();
+        if (this.autoPlay) {
+          // Try to play and catch errors (autoplay policy)
+          this.audio.play().catch((e) => {
+            // Log autoplay block for debugging
+            console.warn("Autoplay failed:", e);
+          });
+        }
       } else {
         throw new Error("Failed to load sound file");
       }
@@ -731,6 +765,13 @@ export default {
 .vuetify-audio-tonal .text-caption {
   color: var(--v-theme-primary, #6750a4) !important;
   opacity: 0.85;
+}
+.vuetify-audio-tonal-light {
+  background: rgba(245, 245, 250, 0.85);
+}
+.vuetify-audio-tonal-dark {
+  background: rgba(30, 32, 40, 0.92);
+  color: #e3eaf7;
 }
 @media (max-width: 600px) {
   .vuetify-audio-modern {
