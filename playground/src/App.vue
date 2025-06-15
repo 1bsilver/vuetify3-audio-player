@@ -137,7 +137,7 @@ const variantOptions = ["default", "modern", "tonal"];
         dark ? 'playground-bg-dark' : 'playground-bg-light',
       ]"
     >
-      <v-container class="py-8" style="max-width: 900px">
+      <v-container class="py-8" style="max-width: 1100px">
         <v-row align="center" justify="center">
           <v-col cols="12" class="text-center mb-6">
             <v-avatar
@@ -233,16 +233,18 @@ const variantOptions = ["default", "modern", "tonal"];
             </v-btn>
           </v-col>
         </v-row>
-        <v-row>
-          <v-col cols="12" md="7">
+        <v-row align="stretch">
+          <v-col
+            cols="12"
+            md="6"
+            class="d-flex flex-column"
+            style="height: 100%"
+          >
             <v-card
               elevation="10"
-              class="pa-6 mb-6 demo-card"
+              class="pa-6 mb-6 demo-card d-flex flex-column"
               :class="dark ? 'demo-card-dark' : ''"
-              style="
-                border: none;
-                box-shadow: 0 4px 32px 0 rgba(99, 102, 241, 0.1);
-              "
+              style="height: 100%"
             >
               <div class="d-flex align-center justify-space-between mb-4">
                 <h2 class="font-weight-bold mb-0 usage-title">Live Demo</h2>
@@ -349,13 +351,20 @@ const variantOptions = ["default", "modern", "tonal"];
                 :loopable="loopable"
                 style="max-width: 100%"
               />
+              <div style="flex: 1 1 auto"></div>
             </v-card>
           </v-col>
-          <v-col cols="12" md="5">
+          <v-col
+            cols="12"
+            md="6"
+            class="d-flex flex-column"
+            style="height: 100%"
+          >
             <v-card
-              elevation="6"
-              class="pa-5 mb-6 usage-card"
-              :class="dark ? 'usage-card-dark' : ''"
+              elevation="10"
+              class="pa-6 mb-6 usage-card demo-card d-flex flex-column"
+              :class="dark ? 'demo-card-dark' : ''"
+              style="height: auto"
             >
               <h3 class="mb-3 font-weight-bold usage-title">Usage</h3>
               <pre
@@ -363,29 +372,41 @@ const variantOptions = ["default", "modern", "tonal"];
                 style="text-align: left; margin-bottom: 1.5em"
               >
 <code class="language-html" ref="codeBlock" style="background: none; color: inherit; padding: 0; border: none; display: block; text-align: left; white-space: pre;">{{ codeExample.trim() }}</code></pre>
-              <h4 class="mt-5 mb-2 font-weight-bold props-title">Props</h4>
-              <v-table density="compact" class="mb-2 props-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Prop</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Default</th>
-                    <th scope="col">Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="prop in propsList" :key="prop.name">
-                    <td>
-                      <code>{{ prop.name }}</code>
-                    </td>
-                    <td>{{ prop.type }}</td>
-                    <td>
-                      <code>{{ prop.default }}</code>
-                    </td>
-                    <td>{{ prop.desc }}</td>
-                  </tr>
-                </tbody>
-              </v-table>
+            </v-card>
+            <v-card
+              elevation="10"
+              class="pa-6 mb-6 props-card demo-card d-flex flex-column"
+              :class="dark ? 'demo-card-dark' : ''"
+              style="height: auto"
+            >
+              <h4 class="mb-3 font-weight-bold props-title">Props</h4>
+              <div class="props-table-scroll-wrapper">
+                <v-table
+                  density="compact"
+                  class="mb-2 props-table props-table-scrollable"
+                >
+                  <thead>
+                    <tr>
+                      <th scope="col">Prop</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Default</th>
+                      <th scope="col">Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="prop in propsList" :key="prop.name">
+                      <td>
+                        <code>{{ prop.name }}</code>
+                      </td>
+                      <td>{{ prop.type }}</td>
+                      <td>
+                        <code>{{ prop.default }}</code>
+                      </td>
+                      <td>{{ prop.desc }}</td>
+                    </tr>
+                  </tbody>
+                </v-table>
+              </div>
             </v-card>
           </v-col>
         </v-row>
@@ -437,14 +458,16 @@ const variantOptions = ["default", "modern", "tonal"];
   box-shadow: 0 4px 32px 0 rgba(6, 182, 212, 0.1);
   border: none;
 }
-.usage-card {
-  border-radius: 18px;
+.usage-card,
+.props-card {
   background: #fff;
   transition: background 0.3s, box-shadow 0.3s;
   box-shadow: 0 2px 12px 0 rgba(60, 60, 60, 0.06);
 }
-.usage-card-dark {
-  background: #232526;
+.demo-card-dark,
+.usage-card-dark,
+.props-card.demo-card-dark {
+  background: #232526 !important;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.18);
 }
 .code-block {
@@ -479,9 +502,11 @@ const variantOptions = ["default", "modern", "tonal"];
   font-weight: 600;
   font-size: 1em;
 }
-.usage-card-dark .props-table th {
-  background: #232526;
-  color: #e3eaf7;
+.demo-card-dark .props-table th,
+.usage-card-dark .props-table th,
+.props-card.demo-card-dark .props-table th {
+  background: #232526 !important;
+  color: #e3eaf7 !important;
 }
 .props-table td {
   font-size: 0.98em;
@@ -598,6 +623,66 @@ const variantOptions = ["default", "modern", "tonal"];
 }
 .demo-card .demo-controls-card {
   margin-top: 0.2em;
+}
+.props-table-scroll-wrapper {
+  max-height: 320px;
+  overflow-y: auto;
+  position: relative;
+  /* Prevent table from growing outside the card */
+  display: block;
+}
+.props-table-scrollable {
+  border-collapse: separate;
+  width: 100%;
+  table-layout: fixed;
+}
+.props-table-scrollable thead {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+.props-table-scrollable tbody {
+  display: block;
+  width: 100%;
+  max-height: 260px;
+  overflow-y: auto;
+}
+.props-table-scrollable thead th {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #f0f0f0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  min-width: 80px;
+  max-width: 160px;
+}
+.props-table-scrollable th[scope="col"] {
+  /* Make sure all headers are single-line and don't wrap */
+  white-space: nowrap;
+}
+.props-table-scrollable td {
+  white-space: nowrap;
+  text-overflow: initial;
+  overflow: visible;
+}
+.props-table-scrollable td:first-child,
+.props-table-scrollable td:nth-child(2),
+.props-table-scrollable td:nth-child(3) {
+  white-space: nowrap;
+  text-overflow: initial;
+  overflow: visible;
+}
+.props-table-scrollable td:nth-child(4) {
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.props-table-scrollable tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }
 @media (max-width: 700px) {
   .demo-controls-card {
