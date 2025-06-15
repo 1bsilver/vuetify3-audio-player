@@ -234,22 +234,16 @@ const variantOptions = ["default", "modern", "tonal"];
           </v-col>
         </v-row>
         <v-row align="stretch">
-          <v-col
-            cols="12"
-            md="6"
-            class="d-flex flex-column"
-            style="height: 100%"
-          >
+          <!-- Left: Live Demo Controls -->
+          <v-col cols="12" md="6" class="d-flex flex-column">
             <v-card
               elevation="10"
               class="pa-6 mb-6 demo-card d-flex flex-column"
               :class="dark ? 'demo-card-dark' : ''"
-              style="height: 100%"
             >
-              <div class="d-flex align-center justify-space-between mb-4">
-                <h2 class="font-weight-bold mb-0 usage-title">Live Demo</h2>
-              </div>
-              <!-- Controls section: visually grouped for clarity -->
+              <h2 class="font-weight-bold mb-4 usage-title">
+                Live Demo Controls
+              </h2>
               <div class="demo-controls-card mb-4">
                 <div class="d-flex align-center flex-wrap prop-switch-row">
                   <v-switch
@@ -332,13 +326,19 @@ const variantOptions = ["default", "modern", "tonal"];
                   />
                 </div>
               </div>
-              <div
-                class="mb-2 text-body-2"
-                :class="dark ? 'text-grey-lighten-1' : 'text-grey-darken-1'"
-              >
-                Try the audio player below. Toggle minimal mode to see a compact
-                version. Use the controls above to test all props.
-              </div>
+            </v-card>
+          </v-col>
+          <!-- Right: Player above Usage -->
+          <v-col cols="12" md="6" class="d-flex flex-column">
+            <v-card
+              elevation="10"
+              class="pa-6 mb-4 demo-card d-flex flex-column"
+              :class="dark ? 'demo-card-dark' : ''"
+            >
+              <!-- <h2 class="font-weight-bold mb-2 usage-title">
+                VuetifyAudio Player
+              </h2> -->
+
               <VuetifyAudio
                 :file="audioFile"
                 :variant="selectedVariant"
@@ -351,20 +351,11 @@ const variantOptions = ["default", "modern", "tonal"];
                 :loopable="loopable"
                 style="max-width: 100%"
               />
-              <div style="flex: 1 1 auto"></div>
             </v-card>
-          </v-col>
-          <v-col
-            cols="12"
-            md="6"
-            class="d-flex flex-column"
-            style="height: 100%"
-          >
             <v-card
               elevation="10"
-              class="pa-6 mb-6 usage-card demo-card d-flex flex-column"
+              class="pa-6 mb-4 usage-card demo-card d-flex flex-column"
               :class="dark ? 'demo-card-dark' : ''"
-              style="height: auto"
             >
               <h3 class="mb-3 font-weight-bold usage-title">Usage</h3>
               <pre
@@ -373,39 +364,98 @@ const variantOptions = ["default", "modern", "tonal"];
               >
 <code class="language-html" ref="codeBlock" style="background: none; color: inherit; padding: 0; border: none; display: block; text-align: left; white-space: pre;">{{ codeExample.trim() }}</code></pre>
             </v-card>
+          </v-col>
+        </v-row>
+        <!-- Props Card: Full width below both columns -->
+        <v-row>
+          <v-col cols="12">
             <v-card
               elevation="10"
               class="pa-6 mb-6 props-card demo-card d-flex flex-column"
               :class="dark ? 'demo-card-dark' : ''"
-              style="height: auto"
             >
               <h4 class="mb-3 font-weight-bold props-title">Props</h4>
               <div class="props-table-scroll-wrapper">
-                <v-table
-                  density="compact"
-                  class="mb-2 props-table props-table-scrollable"
-                >
+                <table class="props-table-native professional-props-table">
                   <thead>
                     <tr>
-                      <th scope="col">Prop</th>
-                      <th scope="col">Type</th>
-                      <th scope="col">Default</th>
-                      <th scope="col">Description</th>
+                      <th
+                        style="
+                          width: 160px;
+                          text-align: center;
+                          white-space: nowrap;
+                        "
+                      >
+                        Prop
+                      </th>
+                      <th
+                        style="
+                          width: 110px;
+                          text-align: center;
+                          white-space: nowrap;
+                        "
+                      >
+                        Type
+                      </th>
+                      <th
+                        style="
+                          width: 110px;
+                          text-align: center;
+                          white-space: nowrap;
+                        "
+                      >
+                        Default
+                      </th>
+                      <th style="width: auto; text-align: left">Description</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr v-for="prop in propsList" :key="prop.name">
-                      <td>
-                        <code>{{ prop.name }}</code>
-                      </td>
-                      <td>{{ prop.type }}</td>
-                      <td>
-                        <code>{{ prop.default }}</code>
-                      </td>
-                      <td>{{ prop.desc }}</td>
-                    </tr>
-                  </tbody>
-                </v-table>
+                </table>
+                <div class="props-table-native-body-scroll">
+                  <table class="props-table-native professional-props-table">
+                    <tbody>
+                      <tr v-for="prop in propsList" :key="prop.name">
+                        <td
+                          style="
+                            width: 160px;
+                            text-align: center;
+                            white-space: nowrap;
+                          "
+                        >
+                          <code class="professional-prop-name">{{
+                            prop.name
+                          }}</code>
+                        </td>
+                        <td
+                          style="
+                            width: 110px;
+                            text-align: center;
+                            white-space: nowrap;
+                          "
+                        >
+                          {{ prop.type }}
+                        </td>
+                        <td
+                          style="
+                            width: 110px;
+                            text-align: center;
+                            white-space: nowrap;
+                          "
+                        >
+                          <code>{{ prop.default }}</code>
+                        </td>
+                        <td
+                          style="
+                            text-align: left;
+                            white-space: normal;
+                            word-break: break-word;
+                          "
+                        >
+                          {{ prop.desc }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </v-card>
           </v-col>
@@ -466,9 +516,9 @@ const variantOptions = ["default", "modern", "tonal"];
 }
 .demo-card-dark,
 .usage-card-dark,
-.props-card.demo-card-dark {
+.props-card.demo-card-dark .props-table th {
   background: #232526 !important;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.18);
+  color: #e3eaf7 !important;
 }
 .code-block {
   border-radius: 8px;
@@ -625,11 +675,36 @@ const variantOptions = ["default", "modern", "tonal"];
   margin-top: 0.2em;
 }
 .props-table-scroll-wrapper {
-  max-height: 320px;
+  width: 100%;
+}
+.props-table-native {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+}
+.props-table-native th,
+.props-table-native td {
+  padding: 8px 12px;
+  background: inherit;
+  vertical-align: middle;
+}
+.props-table-native th {
+  background: #f0f0f0;
+  color: #333;
+  font-weight: 600;
+  font-size: 1em;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.demo-card-dark .props-table-native th {
+  background: #232526 !important;
+  color: #e3eaf7 !important;
+}
+.props-table-native-body-scroll {
+  max-height: 260px;
   overflow-y: auto;
-  position: relative;
-  /* Prevent table from growing outside the card */
-  display: block;
+  width: 100%;
 }
 .props-table-scrollable {
   border-collapse: separate;
@@ -707,5 +782,66 @@ const variantOptions = ["default", "modern", "tonal"];
   .usage-card {
     padding: 1.5em !important;
   }
+}
+.professional-props-table {
+  border-radius: 12px;
+  box-shadow: 0 2px 12px 0 rgba(60, 60, 60, 0.08);
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  font-family: inherit;
+}
+.demo-card-dark .professional-props-table {
+  background: #232526;
+  border: 1px solid #232946;
+}
+.professional-props-table th {
+  background: #f4f6fa;
+  color: #23272e;
+  font-weight: 600;
+  font-size: 1em;
+  border-bottom: 2px solid #e5e7eb;
+  font-family: inherit;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.demo-card-dark .professional-props-table th {
+  background: #232946;
+  color: #e3eaf7;
+  border-bottom: 2px solid #232946;
+}
+.professional-props-table td {
+  background: transparent;
+  font-size: 1em;
+  border-bottom: 1px solid #f0f4fa;
+  transition: background 0.2s;
+}
+.demo-card-dark .professional-props-table td {
+  border-bottom: 1px solid #232946;
+}
+.professional-props-table tbody tr:nth-child(even) td {
+  background: #f8fafc;
+}
+.demo-card-dark .professional-props-table tbody tr:nth-child(even) td {
+  background: #232946;
+}
+.professional-props-table tbody tr:hover td {
+  background: #e0e7ef;
+  transition: background 0.2s;
+}
+.demo-card-dark .professional-props-table tbody tr:hover td {
+  background: #1e293b;
+  color: #fff;
+}
+.professional-prop-name {
+  color: #6366f1;
+  font-weight: 600;
+  font-family: inherit;
+  font-size: 1em;
+  background: none;
+  padding: 0;
+}
+.demo-card-dark .professional-prop-name {
+  color: #06b6d4;
 }
 </style>
