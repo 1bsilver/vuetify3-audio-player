@@ -4,11 +4,26 @@
       :class="[
         variant === 'modern' ? 'vuetify-audio-modern' : '',
         variant === 'tonal'
-          ? ['vuetify-audio-tonal', 'border-md', `border-${color}`]
+          ? [
+              'vuetify-audio-tonal',
+              'border-opacity-75',
+              'border-solid',
+              `border-${color}`,
+            ]
           : '',
         'pa-4',
         'pa-sm-6',
       ]"
+      :style="
+        variant === 'tonal'
+          ? {
+              borderWidth: 'var(--v-border-width-md)',
+              borderStyle: 'solid',
+              borderColor: color,
+              opacity: 0.75,
+            }
+          : undefined
+      "
       :flat="
         variant === 'modern' || variant === 'tonal'
           ? true
@@ -354,23 +369,20 @@ export default {
     resolveColor(color, alpha) {
       if (!color) return "";
       // If color is a Vuetify CSS variable
-      if (color.startsWith("--v-theme-")) {
+      if (typeof color === "string" && color.startsWith("--v-theme-")) {
         return `var(${color})`;
       }
       // If color is a Vuetify theme name (primary, secondary, etc)
-      const themeNames = [
-        "primary",
-        "secondary",
-        "success",
-        "info",
-        "warning",
-        "error",
-      ];
-      if (themeNames.includes(color)) {
+      // Always return the CSS variable, let the theme handle it
+      if (typeof color === "string") {
         return `var(--v-theme-${color})`;
       }
       // If color is a hex and alpha is provided, convert to rgba
-      if (alpha !== undefined && color.startsWith("#")) {
+      if (
+        alpha !== undefined &&
+        typeof color === "string" &&
+        color.startsWith("#")
+      ) {
         let hex = color.replace("#", "");
         if (hex.length === 3)
           hex = hex
