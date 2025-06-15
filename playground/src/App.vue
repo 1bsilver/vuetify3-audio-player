@@ -1,10 +1,47 @@
 <script setup>
-import { ref, computed, onMounted } from "vue";
+// =====================
+// Imports & Setup
+// =====================
+import { ref, computed, onMounted, watch, nextTick } from "vue";
 import VuetifyAudio from "../../src/vuetifyaudio.vue";
 
+// =====================
+// State & Options
+// =====================
 const dark = ref(false);
 const audioFile = "/sample.mp3";
 const minimal = ref(false);
+const flat = ref(false);
+const downloadable = ref(true);
+const autoPlay = ref(false);
+const playbackSpeed = ref(false);
+const loopable = ref(false);
+const selectedColor = ref("primary");
+const selectedVariant = ref("default");
+
+// Color and variant options for selects
+const colorOptions = [
+  { text: "Primary (default)", value: "primary" },
+  { text: "Secondary", value: "secondary" },
+  { text: "Success", value: "success" },
+  { text: "Info", value: "info" },
+  { text: "Warning", value: "warning" },
+  { text: "Error", value: "error" },
+  { text: "Pink", value: "pink" },
+  { text: "Teal", value: "teal" },
+  { text: "Indigo", value: "indigo" },
+  { text: "Amber", value: "amber" },
+  { text: "Deep Purple", value: "deep-purple" },
+  { text: "Cyan", value: "cyan" },
+  { text: "Grey", value: "grey" },
+  { text: "Black", value: "black" },
+  { text: "White", value: "white" },
+];
+const variantOptions = ["default", "modern", "tonal"];
+
+// =====================
+// Props Table Data
+// =====================
 const propsList = [
   {
     name: "file",
@@ -111,84 +148,72 @@ const propsList = [
   },
 ];
 
-onMounted(() => {
-  // Dynamically load Prism.js and CSS for syntax highlighting
-  if (!document.getElementById("prismjs")) {
-    const link = document.createElement("link");
-    link.id = "prismjs";
-    link.rel = "stylesheet";
-    link.href =
-      "https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css";
-    document.head.appendChild(link);
-    const script = document.createElement("script");
-    script.src = "https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js";
-    script.onload = () => {
-      window.Prism && window.Prism.highlightAll();
-    };
-    document.body.appendChild(script);
-  } else {
-    window.Prism && window.Prism.highlightAll();
-  }
-});
-
-const flat = ref(false);
-const downloadable = ref(true);
-const autoPlay = ref(false);
-const playbackSpeed = ref(false);
-const loopable = ref(false);
-const selectedColor = ref("primary");
-const selectedVariant = ref("default");
-
+// =====================
+// Code Example (Live-updating)
+// =====================
 const codeExample = computed(() => {
-  // Only include props that are not at their default values
   const props = [
     'file="/sample.mp3"',
     `color=\"${selectedColor.value}\"`,
     `variant=\"${selectedVariant.value}\"`,
   ];
-  if (downloadable.value !== false) props.push(':downloadable="true"');
-  if (minimal.value !== false) props.push(':minimal="true"');
-  if (flat.value !== false) props.push(':flat="true"');
-  if (autoPlay.value !== false) props.push(':autoPlay="true"');
-  if (playbackSpeed.value !== false) props.push(':playbackSpeed="true"');
-  if (loopable.value !== false) props.push(':loopable="true"');
+  if (downloadable.value) props.push(':downloadable="true"');
+  if (minimal.value) props.push(':minimal="true"');
+  if (flat.value) props.push(':flat="true"');
+  if (autoPlay.value) props.push(':autoPlay="true"');
+  if (playbackSpeed.value) props.push(':playbackSpeed="true"');
+  if (loopable.value) props.push(':loopable="true"');
   return `<template>\n  <vuetify-audio\n    ${props.join(
     "\n    "
   )} />\n</template>`;
 });
-
 const codeBlockTheme = computed(() =>
   dark.value ? "code-block-dark" : "code-block-light"
 );
 
-// Watch for codeExample changes and re-highlight
-import { watch, nextTick } from "vue";
+// =====================
+// Prism.js Syntax Highlighting (Efficient)
+// =====================
+let prismLoaded = false;
 const codeBlock = ref(null);
-watch(codeExample, async () => {
+function loadPrismOnce() {
+  if (prismLoaded) return Promise.resolve();
+  return new Promise((resolve) => {
+    if (!document.getElementById("prismjs")) {
+      const link = document.createElement("link");
+      link.id = "prismjs";
+      link.rel = "stylesheet";
+      link.href =
+        "https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css";
+      document.head.appendChild(link);
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js";
+      script.onload = () => {
+        prismLoaded = true;
+        resolve();
+      };
+      document.body.appendChild(script);
+    } else {
+      prismLoaded = true;
+      resolve();
+    }
+  });
+}
+function debounce(fn, delay) {
+  let timer = null;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
+const highlightCode = debounce(async () => {
   await nextTick();
+  await loadPrismOnce();
   if (window.Prism && codeBlock.value) {
     window.Prism.highlightElement(codeBlock.value);
   }
-});
-
-const colorOptions = [
-  { text: "Primary (default)", value: "primary" },
-  { text: "Secondary", value: "secondary" },
-  { text: "Success", value: "success" },
-  { text: "Info", value: "info" },
-  { text: "Warning", value: "warning" },
-  { text: "Error", value: "error" },
-  { text: "Pink", value: "pink" },
-  { text: "Teal", value: "teal" },
-  { text: "Indigo", value: "indigo" },
-  { text: "Amber", value: "amber" },
-  { text: "Deep Purple", value: "deep-purple" },
-  { text: "Cyan", value: "cyan" },
-  { text: "Grey", value: "grey" },
-  { text: "Black", value: "black" },
-  { text: "White", value: "white" },
-];
-const variantOptions = ["default", "modern", "tonal"];
+}, 120);
+watch(codeExample, highlightCode, { immediate: true });
 </script>
 
 <template>
@@ -285,6 +310,17 @@ const variantOptions = ["default", "modern", "tonal"];
             </v-btn>
             <v-btn
               variant="tonal"
+              color="pink"
+              class="mx-2"
+              href="https://www.npmjs.com/package/vuetify3-audio-player"
+              target="_blank"
+              rel="noopener"
+              prepend-icon="mdi-npm"
+            >
+              npm
+            </v-btn>
+            <v-btn
+              variant="tonal"
               color="secondary"
               class="mx-2 dark-toggle-btn"
               @click="dark = !dark"
@@ -298,11 +334,17 @@ const variantOptions = ["default", "modern", "tonal"];
         </v-row>
         <v-row align="stretch">
           <!-- Left: Live Demo Controls -->
-          <v-col cols="12" md="6" class="d-flex flex-column">
+          <v-col
+            cols="12"
+            md="6"
+            class="d-flex flex-column h-100"
+            style="height: 100%"
+          >
             <v-card
               elevation="10"
-              class="pa-6 mb-6 demo-card d-flex flex-column"
+              class="pa-6 demo-card d-flex flex-column flex-grow-1 h-100"
               :class="dark ? 'demo-card-dark' : ''"
+              style="height: 100%"
             >
               <h2 class="font-weight-bold mb-4 usage-title">
                 Live Demo Controls
@@ -402,16 +444,17 @@ const variantOptions = ["default", "modern", "tonal"];
             </v-card>
           </v-col>
           <!-- Right: Player above Usage -->
-          <v-col cols="12" md="6" class="d-flex flex-column">
+          <v-col
+            cols="12"
+            md="6"
+            class="d-flex flex-column h-100"
+            style="height: 100%"
+          >
             <v-card
               elevation="10"
               class="pa-6 mb-4 demo-card d-flex flex-column"
               :class="dark ? 'demo-card-dark' : ''"
             >
-              <!-- <h2 class="font-weight-bold mb-2 usage-title">
-                VuetifyAudio Player
-              </h2> -->
-
               <VuetifyAudio
                 :file="audioFile"
                 :variant="selectedVariant"
@@ -427,8 +470,9 @@ const variantOptions = ["default", "modern", "tonal"];
             </v-card>
             <v-card
               elevation="10"
-              class="pa-6 mb-4 usage-card demo-card d-flex flex-column"
+              class="pa-6 usage-card demo-card d-flex flex-column flex-grow-1"
               :class="dark ? 'demo-card-dark' : ''"
+              style="height: 100%"
             >
               <h3 class="mb-3 font-weight-bold usage-title">Usage</h3>
               <pre
