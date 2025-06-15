@@ -37,6 +37,12 @@ const propsList = [
     desc: "Autoplay on load",
   },
   { name: "flat", type: "Boolean", default: "false", desc: "Flat card style" },
+  {
+    name: "playbackSpeed",
+    type: "Boolean",
+    default: "false",
+    desc: "Show playback speed button (user can change speed)",
+  },
 ];
 
 onMounted(() => {
@@ -62,6 +68,7 @@ onMounted(() => {
 const flat = ref(false);
 const downloadable = ref(true);
 const autoPlay = ref(false);
+const playbackSpeed = ref(false);
 const selectedColor = ref("primary");
 const selectedVariant = ref("tonal");
 
@@ -76,6 +83,7 @@ const codeExample = computed(() => {
   if (minimal.value !== false) props.push(':minimal="true"');
   if (flat.value !== false) props.push(':flat="true"');
   if (autoPlay.value !== false) props.push(':autoPlay="true"');
+  if (playbackSpeed.value !== false) props.push(':playbackSpeed="true"');
   return `<template>\n  <vuetify-audio\n    ${props.join(
     "\n    "
   )} />\n</template>`;
@@ -272,6 +280,15 @@ const variantOptions = ["default", "modern", "tonal"];
                     class="prop-switch"
                     density="compact"
                   />
+                  <v-switch
+                    v-model="playbackSpeed"
+                    color="primary"
+                    inset
+                    hide-details
+                    label="Playback Speed"
+                    class="prop-switch"
+                    density="compact"
+                  />
                 </div>
                 <div
                   class="d-flex align-center flex-wrap gap-4 prop-controls-row mt-2"
@@ -311,6 +328,7 @@ const variantOptions = ["default", "modern", "tonal"];
                 :minimal="minimal"
                 :flat="flat"
                 :autoPlay="autoPlay"
+                :playbackSpeed="playbackSpeed"
                 style="max-width: 100%"
               />
             </v-card>

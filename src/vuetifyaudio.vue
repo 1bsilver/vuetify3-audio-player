@@ -220,6 +220,29 @@
         >
           <v-icon>{{ isMuted ? volumeMuteIcon : volumeHighIcon }}</v-icon>
         </v-btn>
+        <v-btn
+          v-if="playbackSpeed && loaded"
+          variant="outlined"
+          :size="minimal ? 'small' : 'default'"
+          icon
+          class="ma-1 polished-btn"
+          :color="color"
+          @click="cycleSpeed()"
+          aria-label="Playback Speed"
+          elevation="1"
+        >
+          <v-badge
+            :content="speedLabel"
+            color="primary"
+            overlap
+            offset-x="-8"
+            offset-y="-8"
+            bordered
+            style="pointer-events: none"
+          >
+            <v-icon>mdi-speedometer</v-icon>
+          </v-badge>
+        </v-btn>
         <v-spacer></v-spacer>
         <v-row
           v-if="!minimal"
@@ -337,10 +360,36 @@ export default {
       default: "default", // options: default, modern, tonal
       validator: (v) => ["default", "modern", "tonal"].includes(v),
     },
+    playbackSpeed: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      firstPlay: true,
+      isMuted: false,
+      isOnRepeat: false,
+      loaded: false,
+      playing: false,
+      paused: false,
+      percentage: 0,
+      currentTime: "00:00:00",
+      audio: undefined,
+      totalDuration: 0,
+      playerVolume: 1.0,
+      playbackSpeeds: [1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5],
+      currentSpeedIdx: 0,
+    };
   },
   computed: {
     duration: function () {
       return this.audio ? formatTime(this.totalDuration) : "";
+    },
+    speedLabel() {
+      return this.playbackSpeed
+        ? `${this.playbackSpeeds[this.currentSpeedIdx]}x`
+        : "";
     },
   },
   watch: {
@@ -366,6 +415,20 @@ export default {
             });
           }, 100);
         }
+        if (this.playbackSpeed) {
+          this.currentSpeedIdx = 0;
+          this.audio.playbackRate = this.playbackSpeeds[this.currentSpeedIdx];
+          this.$forceUpdate();
+        }
+      }
+    },
+    playbackSpeed(newVal) {
+      if (this.audio) {
+        if (newVal) {
+          this.audio.playbackRate = this.playbackSpeeds[this.currentSpeedIdx];
+        } else {
+          this.audio.playbackRate = 1.0;
+        }
       }
     },
     autoPlay(newVal) {
@@ -377,22 +440,6 @@ export default {
       }
     },
   },
-  data() {
-    return {
-      firstPlay: true,
-      isMuted: false,
-      isOnRepeat: false,
-      loaded: false,
-      playing: false,
-      paused: false,
-      percentage: 0,
-      currentTime: "00:00:00",
-      audio: undefined,
-      totalDuration: 0,
-      playerVolume: 1.0,
-    };
-  },
-
   methods: {
     resolveColor(color, alpha) {
       if (!color) return "";
@@ -490,6 +537,17 @@ export default {
     },
     reload() {
       this.audio.load();
+      if (this.playbackSpeed) {
+        this.audio.playbackRate = this.playbackSpeeds[this.currentSpeedIdx];
+      }
+    },
+    cycleSpeed() {
+      if (!this.playbackSpeed || !this.audio) return;
+      this.currentSpeedIdx =
+        (this.currentSpeedIdx + 1) % this.playbackSpeeds.length;
+      this.audio.playbackRate = this.playbackSpeeds[this.currentSpeedIdx];
+      // Force UI update for badge
+      this.$forceUpdate();
     },
     _handleLoaded: function () {
       if (this.audio.readyState >= 2) {
@@ -514,6 +572,9 @@ export default {
             // Log autoplay block for debugging
             console.warn("Autoplay failed:", e);
           });
+        }
+        if (this.playbackSpeed) {
+          this.audio.playbackRate = this.playbackSpeeds[this.currentSpeedIdx];
         }
       } else {
         throw new Error("Failed to load sound file");
@@ -554,6 +615,9 @@ export default {
       this.audio.addEventListener("pause", this._handlePlayPause);
       this.audio.addEventListener("play", this._handlePlayPause);
       this.audio.addEventListener("ended", this._handleEnded);
+      if (this.playbackSpeed) {
+        this.audio.playbackRate = this.playbackSpeeds[this.currentSpeedIdx];
+      }
     },
   },
   mounted() {
