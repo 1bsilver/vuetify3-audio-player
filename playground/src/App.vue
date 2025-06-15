@@ -278,6 +278,7 @@ const variantOptions = ["default", "modern", "tonal"];
               class="mx-2"
               href="https://github.com/ibrahim/vuetify3-audio-player"
               target="_blank"
+              rel="noopener"
               prepend-icon="mdi-github"
             >
               GitHub
@@ -314,6 +315,7 @@ const variantOptions = ["default", "modern", "tonal"];
                     inset
                     hide-details
                     label="Minimal Mode"
+                    aria-label="Toggle minimal mode"
                     class="prop-switch"
                     density="compact"
                     track-color="secondary"
@@ -325,6 +327,7 @@ const variantOptions = ["default", "modern", "tonal"];
                     inset
                     hide-details
                     label="Flat"
+                    aria-label="Toggle flat mode"
                     class="prop-switch"
                     density="compact"
                   />
@@ -334,6 +337,7 @@ const variantOptions = ["default", "modern", "tonal"];
                     inset
                     hide-details
                     label="Downloadable"
+                    aria-label="Toggle downloadable"
                     class="prop-switch"
                     density="compact"
                   />
@@ -343,6 +347,7 @@ const variantOptions = ["default", "modern", "tonal"];
                     inset
                     hide-details
                     label="Autoplay"
+                    aria-label="Toggle autoplay"
                     class="prop-switch"
                     density="compact"
                   />
@@ -352,6 +357,7 @@ const variantOptions = ["default", "modern", "tonal"];
                     inset
                     hide-details
                     label="Playback Speed"
+                    aria-label="Toggle playback speed"
                     class="prop-switch"
                     density="compact"
                   />
@@ -361,6 +367,7 @@ const variantOptions = ["default", "modern", "tonal"];
                     inset
                     hide-details
                     label="Loopable (Repeat)"
+                    aria-label="Toggle loopable"
                     class="prop-switch"
                     density="compact"
                   />
@@ -374,6 +381,7 @@ const variantOptions = ["default", "modern", "tonal"];
                     item-title="text"
                     item-value="value"
                     label="Color"
+                    aria-label="Select player color"
                     density="compact"
                     hide-details
                     class="prop-select"
@@ -383,6 +391,7 @@ const variantOptions = ["default", "modern", "tonal"];
                     v-model="selectedVariant"
                     :items="variantOptions"
                     label="Variant"
+                    aria-label="Select player variant"
                     density="compact"
                     hide-details
                     class="prop-select"
@@ -532,8 +541,16 @@ const variantOptions = ["default", "modern", "tonal"];
               :class="dark ? 'footer-dark' : 'footer-light'"
             >
               Made with <v-icon color="red" size="small">mdi-heart</v-icon> by
-              <a href="https://github.com/ibrahim" target="_blank">ibrahim</a> •
-              <a href="https://vuetifyjs.com/" target="_blank">Vuetify 3</a>
+              <a
+                href="https://github.com/ibrahim"
+                target="_blank"
+                rel="noopener"
+                >ibrahim</a
+              >
+              •
+              <a href="https://vuetifyjs.com/" target="_blank" rel="noopener"
+                >Vuetify 3</a
+              >
             </div>
           </v-col>
         </v-row>
@@ -769,6 +786,14 @@ const variantOptions = ["default", "modern", "tonal"];
   max-height: 260px;
   overflow-y: auto;
   width: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(244, 246, 250, 0.98) 80%,
+    rgba(244, 246, 250, 0.7) 100%
+  );
+}
+.demo-card-dark .props-table-native-body-scroll {
+  background: linear-gradient(180deg, #232526 80%, #232946 100%);
 }
 .props-table-scrollable {
   border-collapse: separate;
@@ -907,5 +932,10 @@ const variantOptions = ["default", "modern", "tonal"];
 }
 .demo-card-dark .professional-prop-name {
   color: #06b6d4;
+}
+.prop-select:focus-within,
+.prop-switch:focus-within {
+  box-shadow: 0 0 0 2px #6366f1;
+  border-radius: 8px;
 }
 </style>
