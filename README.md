@@ -10,7 +10,7 @@ A beautiful, modern, and fully customizable audio player for Vue 3 & Vuetify 3.
 
 ## 🚀 Live Playground
 
-Try all features live in the `/playground` folder or [online demo](https://github.com/1bsilver/vuetify3-audio-player#playground). All props, color options, and variants are interactive.
+Try all features live in the `/playground` folder or [online demo](https://vuetify3-audio-player.netlify.app/). All props, color options, and variants are interactive.
 
 ---
 
