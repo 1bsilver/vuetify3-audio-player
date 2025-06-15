@@ -172,19 +172,21 @@ watch(codeExample, async () => {
 });
 
 const colorOptions = [
-  "primary",
-  "secondary",
-  "success",
-  "info",
-  "warning",
-  "error",
-  "red",
-  "blue",
-  "green",
-  "purple",
-  "orange",
-  "black",
-  "white",
+  { text: "Primary (default)", value: "primary" },
+  { text: "Secondary", value: "secondary" },
+  { text: "Success", value: "success" },
+  { text: "Info", value: "info" },
+  { text: "Warning", value: "warning" },
+  { text: "Error", value: "error" },
+  { text: "Pink", value: "pink" },
+  { text: "Teal", value: "teal" },
+  { text: "Indigo", value: "indigo" },
+  { text: "Amber", value: "amber" },
+  { text: "Deep Purple", value: "deep-purple" },
+  { text: "Cyan", value: "cyan" },
+  { text: "Grey", value: "grey" },
+  { text: "Black", value: "black" },
+  { text: "White", value: "white" },
 ];
 const variantOptions = ["default", "modern", "tonal"];
 </script>
@@ -369,11 +371,13 @@ const variantOptions = ["default", "modern", "tonal"];
                   <v-select
                     v-model="selectedColor"
                     :items="colorOptions"
+                    item-title="text"
+                    item-value="value"
                     label="Color"
                     density="compact"
                     hide-details
                     class="prop-select"
-                    style="max-width: 120px"
+                    style="max-width: 160px"
                   />
                   <v-select
                     v-model="selectedVariant"
