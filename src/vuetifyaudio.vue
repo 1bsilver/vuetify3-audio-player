@@ -3,12 +3,14 @@
     <v-card
       :class="[
         variant === 'modern' ? 'vuetify-audio-modern' : '',
+        variant === 'tonal'
+          ? ['vuetify-audio-tonal', 'border-md', `border-${color}`]
+          : '',
         'pa-4',
         'pa-sm-6',
       ]"
-      style="text-align: center; max-width: 420px; margin: 0 auto"
       :flat="
-        variant === 'modern'
+        variant === 'modern' || variant === 'tonal'
           ? true
           : flat == undefined || flat == false
           ? false
@@ -314,8 +316,8 @@ export default {
     },
     variant: {
       type: String,
-      default: "default", // options: default, modern
-      validator: (v) => ["default", "modern"].includes(v),
+      default: "default", // options: default, modern, tonal
+      validator: (v) => ["default", "modern", "tonal"].includes(v),
     },
   },
   computed: {
@@ -349,6 +351,41 @@ export default {
   },
 
   methods: {
+    resolveColor(color, alpha) {
+      if (!color) return "";
+      // If color is a Vuetify CSS variable
+      if (color.startsWith("--v-theme-")) {
+        return `var(${color})`;
+      }
+      // If color is a Vuetify theme name (primary, secondary, etc)
+      const themeNames = [
+        "primary",
+        "secondary",
+        "success",
+        "info",
+        "warning",
+        "error",
+      ];
+      if (themeNames.includes(color)) {
+        return `var(--v-theme-${color})`;
+      }
+      // If color is a hex and alpha is provided, convert to rgba
+      if (alpha !== undefined && color.startsWith("#")) {
+        let hex = color.replace("#", "");
+        if (hex.length === 3)
+          hex = hex
+            .split("")
+            .map((x) => x + x)
+            .join("");
+        const num = parseInt(hex, 16);
+        const r = (num >> 16) & 255;
+        const g = (num >> 8) & 255;
+        const b = num & 255;
+        return `rgba(${r},${g},${b},${alpha})`;
+      }
+      // If color is already a valid CSS color (e.g. 'red', 'rgb(...)')
+      return color;
+    },
     onProgressBarDown(e) {
       if (!this.loaded || !this.audio) return;
       const progress = e.target;
@@ -598,6 +635,91 @@ export default {
   padding-bottom: 0.5rem !important;
   padding-top: 1.2rem !important;
 }
+
+/* --- Variant: tonal --- */
+.vuetify-audio-tonal {
+  background: rgba(245, 245, 250, 0.85);
+  border-radius: 16px;
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  /* Remove static border and box-shadow, now handled inline for color prop */
+  /* box-shadow and border removed here to allow inline style to control them */
+  padding: 0.7rem 1.1rem 1.1rem 1.1rem !important;
+  transition: box-shadow 0.3s, background 0.3s, border 0.3s;
+}
+.vuetify-audio-tonal .v-card-actions {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 14px !important;
+  min-height: 52px !important;
+  padding: 0 !important;
+}
+.vuetify-audio-tonal .v-btn {
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  font-weight: 600;
+  font-size: 1.08rem;
+  letter-spacing: 0.02em;
+  min-width: 44px;
+  min-height: 44px;
+  transition: background 0.18s, color 0.18s, border 0.18s;
+  /* Remove background, border, and color so Vuetify color prop works */
+}
+.vuetify-audio-tonal .v-btn:disabled {
+  opacity: 0.5;
+}
+.vuetify-audio-tonal .v-btn .v-icon {
+  font-size: 1.35rem !important;
+  /* Remove color override so icon uses color prop */
+}
+.vuetify-audio-tonal .v-progress-linear {
+  border-radius: 8px !important;
+  height: 14px !important;
+  box-shadow: none !important;
+  background: rgba(255, 255, 255, 0.55) !important;
+  position: relative;
+  overflow: visible;
+  transition: background 0.3s;
+}
+.vuetify-audio-tonal .v-progress-linear .v-progress-linear__determinate {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--v-theme-primary, #bdb4e7) 40%, #fff 60%) 0%,
+    color-mix(in srgb, var(--v-theme-secondary, #eaddff) 60%, #fff 40%) 100%
+  );
+  box-shadow: 0 0 0 0 transparent;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s;
+  position: relative;
+  z-index: 1;
+}
+.vuetify-audio-tonal .v-progress-linear .v-progress-linear__indeterminate {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--v-theme-primary, #bdb4e7) 0 10px,
+    var(--v-theme-secondary, #eaddff) 10px 20px
+  );
+  opacity: 0.5;
+}
+.vuetify-audio-tonal .v-slider .v-slider__thumb {
+  box-shadow: 0 0 0 0 transparent;
+  border: 1.5px solid var(--v-theme-primary, #bdb4e7);
+  background: rgba(255, 255, 255, 0.85);
+}
+.vuetify-audio-tonal .v-slider .v-slider__track-container {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--v-theme-primary, #bdb4e7) 40%, #fff 60%) 0%,
+    color-mix(in srgb, var(--v-theme-secondary, #eaddff) 60%, #fff 40%) 100%
+  ) !important;
+  height: 3px !important;
+  box-shadow: none !important;
+}
+.vuetify-audio-tonal .text-caption {
+  color: var(--v-theme-primary, #6750a4) !important;
+  opacity: 0.85;
+}
 @media (max-width: 600px) {
   .vuetify-audio-modern {
     padding: 0.5rem 0.5rem 1rem 0.5rem !important;
@@ -610,6 +732,19 @@ export default {
     min-width: 60px !important;
     max-width: 80px !important;
     margin-left: 4px !important;
+  }
+  .vuetify-audio-tonal {
+    padding: 0.4rem 0.3rem 0.7rem 0.3rem !important;
+    border-radius: 12px;
+    backdrop-filter: blur(8px) saturate(1.1);
+    -webkit-backdrop-filter: blur(8px) saturate(1.1);
+  }
+  .vuetify-audio-tonal .v-card-actions {
+    gap: 7px !important;
+    min-height: 38px !important;
+  }
+  .vuetify-audio-tonal .text-caption {
+    font-size: 0.98rem !important;
   }
 }
 </style>

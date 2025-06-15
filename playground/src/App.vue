@@ -59,8 +59,26 @@ onMounted(() => {
   }
 });
 
+const flat = ref(false);
+const downloadable = ref(true);
+const autoPlay = ref(false);
+const selectedColor = ref("primary");
+const selectedVariant = ref("tonal");
+
 const codeExample = computed(() => {
-  return `<template>\n  <vuetify-audio\n    file=\"/sample.mp3\"\n    color=\"primary\"\n    :downloadable=\"true\"\n    :minimal=\"${minimal.value}\" />\n</template>`;
+  // Only include props that are not at their default values
+  const props = [
+    'file="/sample.mp3"',
+    `color=\"${selectedColor.value}\"`,
+    `variant=\"${selectedVariant.value}\"`,
+  ];
+  if (downloadable.value !== false) props.push(':downloadable="true"');
+  if (minimal.value !== false) props.push(':minimal="true"');
+  if (flat.value !== false) props.push(':flat="true"');
+  if (autoPlay.value !== false) props.push(':autoPlay="true"');
+  return `<template>\n  <vuetify-audio\n    ${props.join(
+    "\n    "
+  )} />\n</template>`;
 });
 
 const codeBlockTheme = computed(() =>
@@ -76,6 +94,23 @@ watch(codeExample, async () => {
     window.Prism.highlightElement(codeBlock.value);
   }
 });
+
+const colorOptions = [
+  "primary",
+  "secondary",
+  "success",
+  "info",
+  "warning",
+  "error",
+  "red",
+  "blue",
+  "green",
+  "purple",
+  "orange",
+  "black",
+  "white",
+];
+const variantOptions = ["default", "modern", "tonal"];
 </script>
 
 <template>
@@ -195,31 +230,87 @@ watch(codeExample, async () => {
             >
               <div class="d-flex align-center justify-space-between mb-4">
                 <h2 class="font-weight-bold mb-0 usage-title">Live Demo</h2>
-                <v-switch
-                  v-model="minimal"
-                  color="primary"
-                  inset
-                  hide-details
-                  label="Minimal Mode"
-                  class="ml-4 minimal-switch"
-                  density="compact"
-                  track-color="secondary"
-                  thumb-color="primary"
-                />
+              </div>
+              <!-- Controls section: visually grouped for clarity -->
+              <div class="demo-controls-card mb-4">
+                <div class="d-flex align-center flex-wrap prop-switch-row">
+                  <v-switch
+                    v-model="minimal"
+                    color="primary"
+                    inset
+                    hide-details
+                    label="Minimal Mode"
+                    class="prop-switch"
+                    density="compact"
+                    track-color="secondary"
+                    thumb-color="primary"
+                  />
+                  <v-switch
+                    v-model="flat"
+                    color="primary"
+                    inset
+                    hide-details
+                    label="Flat"
+                    class="prop-switch"
+                    density="compact"
+                  />
+                  <v-switch
+                    v-model="downloadable"
+                    color="primary"
+                    inset
+                    hide-details
+                    label="Downloadable"
+                    class="prop-switch"
+                    density="compact"
+                  />
+                  <v-switch
+                    v-model="autoPlay"
+                    color="primary"
+                    inset
+                    hide-details
+                    label="Autoplay"
+                    class="prop-switch"
+                    density="compact"
+                  />
+                </div>
+                <div
+                  class="d-flex align-center flex-wrap gap-4 prop-controls-row mt-2"
+                >
+                  <v-select
+                    v-model="selectedColor"
+                    :items="colorOptions"
+                    label="Color"
+                    density="compact"
+                    hide-details
+                    class="prop-select"
+                    style="max-width: 120px"
+                  />
+                  <v-select
+                    v-model="selectedVariant"
+                    :items="variantOptions"
+                    label="Variant"
+                    density="compact"
+                    hide-details
+                    class="prop-select"
+                    style="max-width: 120px"
+                  />
+                </div>
               </div>
               <div
                 class="mb-2 text-body-2"
                 :class="dark ? 'text-grey-lighten-1' : 'text-grey-darken-1'"
               >
                 Try the audio player below. Toggle minimal mode to see a compact
-                version.
+                version. Use the controls above to test all props.
               </div>
               <VuetifyAudio
                 :file="audioFile"
-                variant="modern"
-                color="primary"
-                :downloadable="true"
+                :variant="selectedVariant"
+                :color="selectedColor"
+                :downloadable="downloadable"
                 :minimal="minimal"
+                :flat="flat"
+                :autoPlay="autoPlay"
                 style="max-width: 100%"
               />
             </v-card>
@@ -429,6 +520,66 @@ watch(codeExample, async () => {
 }
 .minimal-switch .v-input--selection-controls__ripple {
   background: linear-gradient(90deg, #06b6d4 0%, #6366f1 100%) !important;
+}
+.prop-controls-row {
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 1.5em;
+}
+.prop-switch {
+  min-width: 150px;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  border-radius: 12px;
+  background: rgba(99, 102, 241, 0.04);
+  padding: 6px 18px 6px 10px;
+  transition: background 0.2s;
+}
+.prop-switch .v-label {
+  white-space: nowrap;
+  margin-left: 10px;
+  margin-bottom: 0 !important;
+  font-size: 1em;
+  display: inline-block !important;
+}
+.prop-switch-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 28px 32px; /* More horizontal and vertical gap for luxury feel */
+  padding: 12px 0 10px 0; /* vertical breathing room */
+  margin-bottom: 1.2em;
+  justify-content: flex-start;
+}
+.demo-controls-card {
+  background: rgba(99, 102, 241, 0.06);
+  border-radius: 14px;
+  padding: 18px 18px 10px 18px;
+  margin-bottom: 1.7em;
+  box-shadow: 0 2px 12px 0 rgba(99, 102, 241, 0.06);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+}
+.demo-card .demo-controls-card {
+  margin-top: 0.2em;
+}
+@media (max-width: 700px) {
+  .demo-controls-card {
+    padding: 10px 6px 6px 6px;
+  }
+  .prop-controls-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .prop-switch,
+  .prop-select {
+    min-width: 0;
+    width: 100%;
+  }
+  .prop-switch {
+    padding: 8px 10px;
+  }
 }
 @media (max-width: 900px) {
   .demo-card,
