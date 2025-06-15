@@ -276,7 +276,7 @@ const variantOptions = ["default", "modern", "tonal"];
               variant="tonal"
               color="primary"
               class="mx-2"
-              href="https://github.com/ibrahim/vuetify3-audio-player"
+              href="https://github.com/1bsilver/vuetify3-audio-player"
               target="_blank"
               rel="noopener"
               prepend-icon="mdi-github"
@@ -542,10 +542,10 @@ const variantOptions = ["default", "modern", "tonal"];
             >
               Made with <v-icon color="red" size="small">mdi-heart</v-icon> by
               <a
-                href="https://github.com/ibrahim"
+                href="https://github.com/1bsilver"
                 target="_blank"
                 rel="noopener"
-                >ibrahim</a
+                >1bsilver</a
               >
               •
               <a href="https://vuetifyjs.com/" target="_blank" rel="noopener"
