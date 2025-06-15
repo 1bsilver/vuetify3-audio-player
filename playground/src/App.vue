@@ -584,7 +584,7 @@ watch(codeExample, highlightCode, { immediate: true });
               class="footer text-caption py-2"
               :class="dark ? 'footer-dark' : 'footer-light'"
             >
-              Made with <v-icon color="red" size="small">mdi-heart</v-icon> by
+              Made with <v-icon color="red" size="small">mdi-fire</v-icon> by
               <a
                 href="https://github.com/1bsilver"
                 target="_blank"
