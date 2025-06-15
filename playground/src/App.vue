@@ -43,6 +43,12 @@ const propsList = [
     default: "false",
     desc: "Show playback speed button (user can change speed)",
   },
+  {
+    name: "loopable",
+    type: "Boolean",
+    default: "false",
+    desc: "Show repeat button and allow looping (user can toggle repeat)",
+  },
 ];
 
 onMounted(() => {
@@ -69,6 +75,7 @@ const flat = ref(false);
 const downloadable = ref(true);
 const autoPlay = ref(false);
 const playbackSpeed = ref(false);
+const loopable = ref(false);
 const selectedColor = ref("primary");
 const selectedVariant = ref("tonal");
 
@@ -84,6 +91,7 @@ const codeExample = computed(() => {
   if (flat.value !== false) props.push(':flat="true"');
   if (autoPlay.value !== false) props.push(':autoPlay="true"');
   if (playbackSpeed.value !== false) props.push(':playbackSpeed="true"');
+  if (loopable.value !== false) props.push(':loopable="true"');
   return `<template>\n  <vuetify-audio\n    ${props.join(
     "\n    "
   )} />\n</template>`;
@@ -289,6 +297,15 @@ const variantOptions = ["default", "modern", "tonal"];
                     class="prop-switch"
                     density="compact"
                   />
+                  <v-switch
+                    v-model="loopable"
+                    color="primary"
+                    inset
+                    hide-details
+                    label="Loopable (Repeat)"
+                    class="prop-switch"
+                    density="compact"
+                  />
                 </div>
                 <div
                   class="d-flex align-center flex-wrap gap-4 prop-controls-row mt-2"
@@ -329,6 +346,7 @@ const variantOptions = ["default", "modern", "tonal"];
                 :flat="flat"
                 :autoPlay="autoPlay"
                 :playbackSpeed="playbackSpeed"
+                :loopable="loopable"
                 style="max-width: 100%"
               />
             </v-card>

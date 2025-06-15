@@ -153,7 +153,7 @@
           <v-icon>{{ stopIcon }}</v-icon>
         </v-btn>
         <v-btn
-          v-if="!minimal"
+          v-if="loopable"
           variant="outlined"
           :size="minimal ? 'small' : 'default'"
           icon
@@ -361,6 +361,10 @@ export default {
       validator: (v) => ["default", "modern", "tonal"].includes(v),
     },
     playbackSpeed: {
+      type: Boolean,
+      default: false,
+    },
+    loopable: {
       type: Boolean,
       default: false,
     },
@@ -603,7 +607,7 @@ export default {
       }
     },
     _handleEnded() {
-      if (this.isOnRepeat) {
+      if (this.loopable && this.isOnRepeat) {
         this.audio.play();
       } else {
         this.paused = this.playing = false;
